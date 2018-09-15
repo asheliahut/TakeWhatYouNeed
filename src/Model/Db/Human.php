@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace Authoring\Model\Db;
+namespace Take\Model\Db;
 
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class Roles extends AbstractModel
+class Human extends AbstractModel
 {
     /**
      * Instantiates a new object for the given database table.
@@ -23,6 +23,6 @@ class Roles extends AbstractModel
      */
     public function factory(CapsuleManager $db): QueryBuilder
     {
-        return $db->table('roles');
+        return $db->table('humans');
     }
 }

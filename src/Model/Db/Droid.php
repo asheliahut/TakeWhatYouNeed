@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-namespace Authoring\Model\Db;
+namespace Take\Model\Db;
 
 use Illuminate\Database\Capsule\Manager as CapsuleManager;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
-class Sdlc extends AbstractModel
+class Droid extends AbstractModel
 {
     /**
      * Instantiates a new object for the given database table.
@@ -23,6 +23,6 @@ class Sdlc extends AbstractModel
      */
     public function factory(CapsuleManager $db): QueryBuilder
     {
-        return $db->table('sdlc');
+        return $db->table('droids');
     }
 }
