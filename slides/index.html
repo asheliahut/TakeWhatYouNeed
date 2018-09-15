@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Take Only What You Need GraphQL in PHP</title>
+
+		<meta name="description" content="When to cache and when not to using php">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+
+
+	</head>
+	<body class="reveal-viewport theme-font-merriweather theme-color-sky-blue">
+		<div class="reveal">
+			<div class="slides">
+				<section data-id="fc395fae47e8512d9d860ef90416d729"><div class="sl-block" data-block-type="text" style="width: 806px; left: 97px; top: 223px; height: auto;" data-block-id="e4d27418512838df5bdcb3cca2dab5c3"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="text-align: center; z-index: 11;">
+<h1>Take Only What You Need GraphQL in PHP</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" data-block-id="22d4cff5027de663c419b69c431d88f9" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 490px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; border-width: 1px;" dir="ui">
+<p>By: Ashley Hutson<br>
+Twitter: @asheliahut</p>
+
+<p>Slides: <a href="https://github.com/asheliahut/graphql-in-php-presentation" target="_blank">github.com/asheliahut/graphql-in-php-presentation</a></p>
+</div></div>
+
+<div class="sl-block" data-block-type="image" data-block-id="e477f3555182335dbe7ff28da24f3ae1" style="min-width: 4px; min-height: 4px; width: 510px; height: 190px; left: 225px; top: 0px;"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="300" data-natural-height="112" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/439fa4a348ff5d1f00ab939cafe112fb.svg"></div></div></section><section data-id="c5e9b192ec62b0d1a361f38be99055d1"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="5cab963a4d7486f78f77ca2d554cda43"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Rest Vs GraphQL</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 140px;" data-block-id="7bf30f78c484997cc828f66dfd971451"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;" dir="ui"><ul>
+<li style="text-align:left">There exists currently a thought that Rest and GraphQL are fighting to be the same thing when they are NOT.</li>
+<li>Each have their place, with strengths and weaknesses</li>
+</ul></div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 350px;" data-block-id="e94781733e874df4af2d103c4c6cc1b6"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;" dir="ui">
+<ul>
+	<li class="fragment" data-fragment-index="0">Documentation</li>
+	<li class="fragment" data-fragment-index="0">Versioning</li>
+	<li class="fragment" data-fragment-index="0">Caching</li>
+	<li class="fragment" data-fragment-index="0">Less Bandwidth</li>
+	<li class="fragment" data-fragment-index="0">Maturity</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="7ad1174dcd6f88497cfb137fbb950477" style="min-width: 4px; min-height: 4px; width: 210px; height: 210px; left: 33px; top: 350px;"><div class="sl-block-content fragment" style="z-index: 13;" data-fragment-index="0"><img data-natural-width="800" data-natural-height="800" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/5ed501a24656953d31255401ff648abc.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="709703eeeaa5d8776b0e7effb03ce738" style="min-width: 4px; min-height: 4px; width: 210px; height: 210px; left: 702px; top: 350px;"><div class="sl-block-content fragment" style="z-index: 14;" data-fragment-index="0"><img data-natural-width="225" data-natural-height="225" style="" data-lazy-loaded="" data-src="data:image/png;base64,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"></div></div>
+<div class="sl-block" data-block-type="line" data-block-id="ed2999eb716c12f7d46dda592e8b893c" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 606px; top: 383px;"><div class="sl-block-content fragment" data-line-x1="226" data-line-y1="128" data-line-x2="315" data-line-y2="200" data-line-color="#000000" data-line-start-type="none" data-line-end-type="none" style="z-index: 15;" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="89" height="72" viewbox="226 128 89 72"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="226" y1="128" x2="315" y2="200"></line><line stroke="#000000" stroke-width="2" x1="226" y1="128" x2="315" y2="200"></line></svg></div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 551px; top: 412px;" data-block-id="bce23e5d8de12d32c083a5bd7a64f46e"><div class="sl-block-content fragment" data-line-x1="226" data-line-y1="128" data-line-x2="370" data-line-y2="171" data-line-color="#000000" data-line-start-type="none" data-line-end-type="none" style="z-index: 16;" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="144" height="43" viewbox="226 128 144 43"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="226" y1="128" x2="370" y2="171"></line><line stroke="#000000" stroke-width="2" x1="226" y1="128" x2="370" y2="171"></line></svg></div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 243px; top: 450px;" data-block-id="d29e85b84ff4d0411fa1e7a6c0f9d2b4"><div class="sl-block-content fragment" data-line-x1="213" data-line-y1="158" data-line-x2="338" data-line-y2="158" data-line-color="#000000" data-line-start-type="none" data-line-end-type="none" style="z-index: 18;" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="125" height="1" viewbox="213 158 125 1"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="213" y1="158" x2="338" y2="158"></line><line stroke="#000000" stroke-width="2" x1="213" y1="158" x2="338" y2="158"></line></svg></div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 243px; top: 450px;" data-block-id="f1be2134af386b0602d66968b802484b"><div class="sl-block-content fragment" data-line-x1="213" data-line-y1="158" data-line-x2="338" data-line-y2="238" data-line-color="#000000" data-line-start-type="none" data-line-end-type="none" style="z-index: 19;" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="125" height="80" viewbox="213 158 125 80"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="213" y1="158" x2="338" y2="238"></line><line stroke="#000000" stroke-width="2" x1="213" y1="158" x2="338" y2="238"></line></svg></div></div>
+<div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 616px; top: 455px;" data-block-id="90d8fe9b0d87b8f89dab5575c0fab7a4"><div class="sl-block-content fragment" data-line-x1="274" data-line-y1="149" data-line-x2="353" data-line-y2="114" data-line-color="#000000" data-line-start-type="none" data-line-end-type="none" style="z-index: 20;" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="79" height="35" viewbox="274 114 79 35"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="274" y1="149" x2="353" y2="114"></line><line stroke="#000000" stroke-width="2" x1="274" y1="149" x2="353" y2="114"></line></svg></div></div></section><section class="stack" data-id="53331a4f87303b11a76224ae8e144186"><section data-id="c312e8e28b430cb49923461295510ac6"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="59d47f1ea27b71e4eb98d7c24a04d6ed"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>What is GraphQL</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 800px; left: 80px; top: 160px;" data-block-id="6113997220e8cde69d6c07692d075324"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<ul>
+	<li style="color:rgb(34, 34, 34)">A data query language</li>
+	<li class="fragment" data-fragment-index="0" style="color:rgb(34, 34, 34)">Developed by Facebook</li>
+	<li class="fragment" data-fragment-index="1" style="color:rgb(34, 34, 34)">Used internally since 2012</li>
+	<li class="fragment" data-fragment-index="2" style="color:rgb(34, 34, 34)">Open source version published in July 2015</li>
+	<li class="fragment" data-fragment-index="2" style="color:rgb(34, 34, 34)">Can be placed in front of any sources of data</li>
+</ul>
+</div></div></section><section data-id="92b4ca9b7171c7d01716486518ffab37"><div class="sl-block" data-block-type="text" style="width: 806px; left: 77px; top: 42px; height: auto;" data-block-id="6a21cec66c37ff5365cf20b1664e8971"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Example Flow</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 701px; height: 531px; left: 130px; top: 140px; min-width: 4px; min-height: 4px;" data-block-id="e27b767fd4f44349c4a6605afa2dbfce"><div class="sl-block-content" style="z-index: 11;"><img data-natural-width="906" data-natural-height="686" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/0676064ec4f9129039217ada25ea539b.png"></div></div></section></section><section data-id="a494e7c2be3e6192c1e18c3db12574c1"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="562f1ab233be7569cb366fbb39c59e5f"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2 style="color:rgb(51, 51, 51)">Type System</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="744b2d788ccf5be35ca8cfd271bb1541"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<ul>
+	<li>Base Types</li>
+	<li>Extra Types</li>
+	<li>Interface Types</li>
+	<li style="color:rgb(51, 51, 51)">Object Types</li>
+	<li style="color:rgb(51, 51, 51)">Query Types</li>
+	<li style="color:rgb(51, 51, 51)">Mutation Types</li>
+	<li style="color:rgb(51, 51, 51)">Subscription Types</li>
+	<li>Schema Type</li>
+</ul>
+</div></div></section><section class="stack" data-id="3d9b78a78f8d21b365d502c63e5b31b4"><section data-id="0836c266553f4278bf21d7bd6e4f7d19"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="8ee4af075027092da97ff59621160576"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Base Types</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="a7fd264650be105be113c72662d30be7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<ul>
+	<li>ID Type</li>
+	<li>String Type</li>
+	<li>Boolean Type</li>
+	<li>Integer Type</li>
+	<li>Float Type</li>
+</ul>
+</div></div></section><section data-id="d0bd7d1853430b047371e9204db8c284"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="65b98941d2b0ec2f8db6fec643b1ce6a"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Id Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="1ff6c8e41d072f4e211410017dd08bf7"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A scalar type to represent your ID</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 120px; top: 280px; height: auto;" data-block-id="d00680acc27678b3a25d74e3885a44a3"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 13; text-align: left;" data-fragment-index="0">
+<p>The 'ID' scalar type represents a unique identifier, this field is not meant to be human readable. This field will always be a STRING. </p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 514px; left: 423px; top: 490px; height: auto;" data-block-id="8684629ed5cc7dbb4a4b025340a68142"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 15; text-align: left;" data-fragment-index="1">
+<p>This can be a normal id or a uuid</p>
+
+<p>Example: "5" or "ce53861b-97bc-425b-9521-72cf77913244"</p>
+</div></div></section><section data-id="fc0dc5d9b60cb216b818c49233596d47"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="1e93be415bc03808cdb90fbf83d0de57"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>String Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="4a35da26c73889a0a8f8a2e4adb72c15"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A scalar type to represent your Strings</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 114px; top: 302px; height: auto;" data-block-id="f94c57b78558ef3cbd66029b875defec"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'String' scalar type represents a UTF-8 set of characters. Used to represent human readable text.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 487px; left: 429px; top: 490px; height: auto;" data-block-id="27151f6d71e29a535c68563d4401aa0e"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 14; text-align: left;" data-fragment-index="1">
+<p>Example: "I am a string value"</p>
+</div></div></section><section data-id="8fd8b2867b5f10e3d0d0d3701cf25c2e"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="972780be9398051171ed3c482f7a7c4a"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Boolean Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="88c6d4ed4c8fb4c58e2e0658ed0cb342"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A scalar type to represent your Booleans</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 122px; top: 350px; height: auto;" data-block-id="4b72d56675a1d5866f8a84a682b1fa94"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'Boolean' scalar type represents a value of true or false.</p>
+</div></div></section><section data-id="3c276fd9be741dd92b82580cc6ae5106"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="a98332c225d66245e97482b53f661fc9"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Integer Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="d14a0c82f9b195c900e7ff043311e984"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A scalar type to represent your Integers</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 100px; top: 300px; height: auto;" data-block-id="8cd33c37986c40cced552842ff029940"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'Integer' scalar type represents a non fractional whole number.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 494px; left: 430px; top: 490px; height: auto;" data-block-id="e0e0d1580a0058c2097b7e126c880f42"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 14; text-align: left;" data-fragment-index="1">
+<p>Example: 5</p>
+</div></div></section><section data-id="65080f63aaa12a77754dff35922edc4d"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="e06b5f6fcd2be8453325bfdd7ab94143"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Float Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="c23fd60e8db5c3e0af19e42ec4ce03f5"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A scalar type to represent your floats</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 99px; top: 296px; height: auto;" data-block-id="c28c9f0e5bb3e0cea0cc5ba1ec69fdf3"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'Integer' scalar type represents a non fractional whole number.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 463px; left: 424px; top: 490px; height: auto;" data-block-id="0d7ae8050aee610adbed550b3acc4c34"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 14; text-align: left;" data-fragment-index="1">
+<p>Example: 5.0</p>
+</div></div></section></section><section class="stack" data-id="8e176b04edd866e5a5a2c2b2a518a8d3"><section data-id="30fe481b1b07f889b8e7a233fc5688bd"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="702a9ed22feed748a274402285b4db52"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Extra Types</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="838165b1140bf8b851fdd48c0b943a98"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<ul>
+	<li>List Type</li>
+	<li>NonNull Type</li>
+	<li>Enum Type</li>
+	<li>+ More</li>
+</ul>
+</div></div></section><section data-id="ee9b70a85418cec0b038fc1f6af0c168"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="4d3bc032a41e44daf5877dcbe5381eb0"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>List Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="ee3e7578916d3704d7b63b637bd0c2a1"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A special type to represent lists of types.</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 120px; top: 280px; height: auto;" data-block-id="47650734ea9bdd90d8715b336d967328"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'List' type represents a set of types that are set for the list. This means a collection of a type. This can even be a list of any Scalar types.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 563px; left: 347px; top: 490px; height: auto;" data-block-id="f43c6473db6615a725e61625f6394ea5"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 13; text-align: left;" data-fragment-index="1">
+<p>Example: [Character]</p>
+</div></div></section><section data-id="1a428db346d1d1cec2c4d92a921c843c"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="9d1158d4deeb316fac6a4f636340ef93"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>NonNull Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="c7604be581c5a01adeb768341599a19d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A special type to apply to another type to mark not nullable</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 120px; top: 292px; height: auto;" data-block-id="ae1285e5fff7caf05f84caa118151991"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'NonNull' type represents is represented by a ! it can be applied to any other type including List Types. It makes a type mandatory.</p>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 563px; left: 347px; top: 490px; height: auto;" data-block-id="5242433a5f43f546495bb613e4060622"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 13; text-align: left;" data-fragment-index="1">
+<p>Example: Character! or [Character]!</p>
+</div></div></section><section data-id="081cb971481ae80c56a7f9d9919c4caf"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="9d4622647019d1cbc8cacea54c184757"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Enum Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="cd50ec4a9845b879b6c4e0f309d12244"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>A special type that is converted between a name and description</p>
+</div></div>
+
+
+<div class="sl-block" data-block-type="text" style="width: 733px; left: 130px; top: 342px; height: auto;" data-block-id="b4266adbafc54e4c5254463d6c8bc7d8"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 12; text-align: left;" data-fragment-index="0">
+<p>The 'Enum' type represents a name, description, and value. When using Enum Types for other inputs it will automatically let users use human readable input and map to non human readable values.</p>
+</div></div>
+</section></section><section data-id="c95a7d20756e66254014000e5137fcf8"><div class="sl-block" data-block-type="text" style="width: 413px; left: 530px; top: 78px; height: auto;" data-block-id="c3c8938f03bae9f6c97039c97228ab45"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Interface Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 530px; top: 163px; height: auto;" data-block-id="f37e087344c6ebdf7f9efbe7933a585f"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>Interfaces are top level representation that can be used to define adherence.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 500px; height: 560px; left: 11px; top: 70px;" data-block-id="1040746f006fb866973c23cae8be525e"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="bash"><code>interface Character {
+    id: ID!
+    name: String
+    friends: [Character]
+    appearsIn: [Episode]
+}</code></pre></div></div></section><section data-id="a603b0d3d5d1ff680bcaac96a5cd9442"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="21ac9ce37fbd3e6eb9a780ad81f7bf04"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Object Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="e05c3a047966c6eb7dfb079815db7a1a"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>Objects are just like a model of your data and should be represented as such.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="6fbb8e2bb817270bf1c32d114bcb9b2d" style="min-width: 30px; min-height: 30px; width: 400px; height: 210px; left: 480px; top: 70px;"><div class="sl-block-content notranslate fragment" data-highlight-theme="obsidian" style="z-index: 12;" data-fragment-index="0"><pre class="bash"><code>type Human implements Character {
+    id: ID!
+    name: String
+    friends: [Character]
+    appearsIn: [Episode]
+    homePlanet: String
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 400px; height: 210px; left: 18px; top: 350px;" data-block-id="9b22d01e8f31bda888bd11599fb451a8"><div class="sl-block-content notranslate fragment" data-highlight-theme="obsidian" style="z-index: 13;" data-fragment-index="1"><pre class="bash"><code>type Droid implements Character {
+    id: ID!
+    name: String
+    friends: [Character]
+    appearsIn: [Episode]
+    primaryFunction: String
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 400px; height: 210px; left: 480px; top: 350px;" data-block-id="b2bad9bf1eca6c44a45aa9489f7d5c77"><div class="sl-block-content notranslate fragment" data-highlight-theme="obsidian" style="z-index: 15;" data-fragment-index="2"><pre class="bash"><code>type Ewok implements Character {
+    id: ID!
+    name: String
+    friends: [Character]
+    appearsIn: [Episode]
+    cuddliness: Int
+}</code></pre></div></div></section><section class="stack" data-id="4c51cabcba55e6354998a3732ab25c82"><section data-id="5a794c21bf778a79bc6cb6594340b531"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="d6ceec9b104ba971a370e8cb8e7d09cb"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Query Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="99c32fe699c4bb11ab6ab0aa8d689cfa"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>Queries are just the definition of how to retrieve data and what objects to retrieve.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 500px; height: 560px; left: 442px; top: 70px;" data-block-id="68194ec3fd740c0de004bc74e4740a89"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="bash"><code>type Query {
+    hero(episode: Episode): Character
+    human(id: String!): Human
+    droid(id: String!): Droid
+    ewok(id: String, name: String): Ewok
+}</code></pre></div></div></section><section data-id="594ed9cd2f1144741ca96526ead7e06c"><div class="sl-block" data-block-type="text" style="width: 806px; left: 77px; top: 42px; height: auto;" data-block-id="b5652aab1018024d49445f06fed0c315"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Arguments</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" data-block-id="ca0dff1e4f25adc96cd8d9fa506d7145" style="min-width: 30px; min-height: 30px; width: 371px; height: 370px; left: 29px; top: 140px;"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="bash"><code>{
+  ewok(name: "Matthew Trask") {
+      id,
+      name,
+      cuddliness
+  }
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="code" style="min-width: 30px; min-height: 30px; width: 371px; height: 370px; left: 560px; top: 140px;" data-block-id="3e8215021637a35084b71b255527790a"><div class="sl-block-content notranslate fragment" data-highlight-theme="obsidian" style="z-index: 13;" data-fragment-index="0"><pre class="bash"><code>{
+  "data": {
+    "ewok": {
+        "id": "1",
+        "name": "Matthew Trask",
+        "cuddliness": 10
+    }
+  }
+}</code></pre></div></div>
+<div class="sl-block" data-block-type="line" data-block-id="149e5c3fff43b97c7e12fafa798be8f1" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 425px; top: 314px;"><div class="sl-block-content fragment" data-line-x1="38" data-line-y1="64" data-line-x2="148" data-line-y2="64" data-line-color="#000000" data-line-start-type="none" data-line-end-type="line-arrow" style="z-index: 14;" data-line-width="13px" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="110" height="1" viewbox="38 64 110 1"><line stroke="rgba(0,0,0,0)" stroke-width="15" x1="38.5" y1="64.5" x2="138.5" y2="64.5"></line><line stroke="#000000" stroke-width="13" x1="38.5" y1="64.5" x2="138.5" y2="64.5"></line><path style="fill: rgba(0,0,0,0);" stroke="#000000" stroke-width="13" transform="translate(138,64) rotate(90)" d="M 29.25 29.25 L 0 0 L -29.25 29.25"></path></svg></div></div></section></section><section data-id="f7ee48e8404bc67371f904d54960ca68"><div class="sl-block" data-block-type="text" style="width: 413px; left: 16px; top: 84px; height: auto;" data-block-id="c4200769b5f23bcb92155960237cff84"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Mutation Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="2f65043404fa50f8c702b708501d851d"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>Mutations are like Create, Update and Delete Calls. They alter data in some way.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 500px; height: 560px; left: 442px; top: 70px;" data-block-id="83dd046a5ee2e8faa73ed0ed028041fa"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="bash"><code>type Mutation{
+    addFriendToEwok(friendType: String!, friend: ID!)
+}</code></pre></div></div></section><section data-id="83b228d5edc13525c4b14e28557046e4"><div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 84px; height: auto;" data-block-id="666018809b7fafd496e09ac38b838030"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Schema Type</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 413px; left: 29px; top: 158px; height: auto;" data-block-id="0dde8b152d91eca00d1c74bb54a1620f"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 11; text-align: left;">
+<p>Schema just defines the root query. This can define whether your API will send or receive data.</p>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 500px; height: 560px; left: 442px; top: 70px;" data-block-id="7b1523cdf08ce0e8b9aa98b81568a773"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="bash"><code>schema {
+  query: Query
+  mutation: Mutation
+}</code></pre></div></div></section><section class="stack" data-id="fbc29fcef87559d7f14a0c1ba1d28b15"><section data-id="401ee14cac0981b9ccd7316baeeb9aff"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="29f8dbc357da424b899d6913a2c3be03"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>PHP GraphQL Libraries</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="2cb740a36903db42f3016e8d33585c33"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11;">
+<ul>
+	<li>There has only been two options for so long and neither have been what graphql strives for.</li>
+	<li>The spec has continued and the older libraries have fallen behind in compliance.</li>
+</ul>
+</div></div></section><section data-id="600aee78898602f4ea158a15633b615c"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="1033f5d7645ad5bb7445a37362fd73b1"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Webonyx/graphql-php</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="4f97d2e5db87e37865b08a59ac2717a3"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+	<li>This was the first GraphQL library for PHP to follow spec guidelines.</li>
+	<li>It continues to this day to be a strong contender.</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 45px; top: 420px;" data-block-id="752cf8553c7eb2c7bcc59e27efddfd0f"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<ul>
+	<li>Huge following</li>
+	<li>Strong Documentation</li>
+	<li>Close to Spec</li>
+	<li>Long term usage</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 545px; top: 420px;" data-block-id="4871a6535b8b38e78e11cdd133b4b346"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="1">
+<ul>
+	<li class="visible">Not as close to spec as possible</li>
+	<li class="visible">Performance is lacking in internals</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 21px; top: 346px; height: auto;" data-block-id="8979476342e731a4e1fe718158bf2d83"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 15;" data-fragment-index="0">
+<h2>Pros</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 531px; top: 346px; height: auto;" data-block-id="a9b97d047dd7808067b7b72eb764fc75"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 16;" data-fragment-index="1">
+<h2>Cons</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="f12d074de5a1aa5ab489b023c8d309fa" style="min-width: 4px; min-height: 4px; width: 136px; height: 136px; left: 12px; top: 142px;"><div class="sl-block-content" style="z-index: 17;"><img data-natural-width="600" data-natural-height="600" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/88700c62f3368df4c720c46e7bcb1e82.png"></div></div></section><section data-id="f4c10cadc4540c1c12e03af2a66296a0"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="b5a6339fb5bf34114a479c01821e6500"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>youshido-php/GraphQL</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="11bea2af3a3071184471243aa83304f1"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+	<li>This library was inspired to be made in order to make a more PHP friendly representation of the spec</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 45px; top: 420px;" data-block-id="69a3ed61ee739e35f7d7ec5dce149119"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<ul>
+	<li>Medium Following</li>
+	<li>Medium Documentation</li>
+	<li>More PHP friendly</li>
+	<li>Long term usage</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 545px; top: 420px;" data-block-id="eec7ed1a8a2a6b514ce97da0464b6a70"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="1">
+<ul>
+	<li>Maintainers are super slow</li>
+	<li>Performance used to be an issue</li>
+	<li>Not close to spec</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 21px; top: 346px; height: auto;" data-block-id="b4d31bd495f67c5e223eefcd0f1579b2"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 15;" data-fragment-index="0">
+<h2>Pros</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 531px; top: 346px; height: auto;" data-block-id="ec99cd0e18facca2d373ea0fa9783c8e"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 16;" data-fragment-index="1">
+<h2>Cons</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="74c82188b68ffbeb9b6ba1c89d883640" style="min-width: 4px; min-height: 4px; width: 140px; height: 140px; left: 10px; top: 140px;"><div class="sl-block-content" style="z-index: 17;"><img data-natural-width="300" data-natural-height="300" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/64fffc8391c938b20d6bb148d3b56a84.gif"></div></div></section><section data-id="e1f15e766e2ccf5b878de3bd49c57ec1"><div class="sl-block" data-block-type="text" style="width: 806px; left: 74px; top: 28px; height: auto;" data-block-id="e9b34b86883ae10228b062e04d6a7f21"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>digiaonline/graphql-php</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 180px; top: 140px;" data-block-id="3f1ec1b4e836933a527733f4869479aa"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<ul>
+	<li>This library was built out of the frustrations of lack of spec respect and timely updates while maintaining the PHP style.</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 45px; top: 420px;" data-block-id="2a02d7a05dff189175b6d35cc5017954"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;" data-fragment-index="0">
+<ul>
+	<li>Fast under the hood</li>
+	<li>SDL based schema definition not experimental</li>
+	<li>More PHP friendly</li>
+	<li>Close to Spec</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="height: auto; width: 391px; left: 545px; top: 420px;" data-block-id="01b8be3c74228c0fe1c3bbbdc47a88c1"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;" data-fragment-index="1">
+<ul>
+	<li>It's an alpha build</li>
+	<li>low documentation</li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 21px; top: 346px; height: auto;" data-block-id="54c0eab217c40133eaa6cd975e191309"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 15;" data-fragment-index="0">
+<h2>Pros</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 379px; left: 531px; top: 346px; height: auto;" data-block-id="d57a3e59cd0daead52695aec31e97227"><div class="sl-block-content fragment" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 16;" data-fragment-index="1">
+<h2>Cons</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="bedd4ca47316b1d20a908fa199de1642" style="min-width: 4px; min-height: 4px; width: 180px; height: 180px; left: -10px; top: 120px;"><div class="sl-block-content" style="z-index: 17;"><img data-natural-width="700" data-natural-height="700" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/9ef03eea88a03ae8fbffcc89b0a653c9.png"></div></div></section></section><section class="stack" data-id="7890e2df3d9e34b62058eb3af87992a2"><section data-id="89acb2852cf11f1aea33dd5ed3fe9918"><div class="sl-block" data-block-type="text" style="width: 806px; left: 66px; top: 46px; height: auto;" data-block-id="cea5bafa18073d623216aa46dc214918"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Start Building in PHP</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="c2c93d2961a9b3cb73793afcc5ff8370" style="min-width: 4px; min-height: 4px; width: 806px; height: 372px; left: 66px; top: 210px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="824" data-natural-height="380" data-lazy-loaded="" data-src="take-what-you-need-graphql/4a52e4ec688558f8b0be9554b53f1b4c.png"></div></div></section><section data-id="d2efb3d84d021f560bce506bf39ea91e"><div class="sl-block" data-block-type="text" style="width: 806px; left: 77px; top: 42px; height: auto;" data-block-id="3e8ad5a07c05f877b63bb486d9145e21"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11;">
+<h2>Start Building in PHP</h2>
+</div></div>
+<div class="sl-block" data-block-type="code" style="width: 805px; height: 490px; left: 80px; top: 140px;" data-block-id="8594de516ae678a1baca8e068b8cbdfa"><div class="sl-block-style" style="z-index: 12; transform: rotate(360deg);"><div class="sl-block-content notranslate" data-highlight-theme="obsidian" style="z-index: 12;"><pre class="php"><code>use Digia\GraphQL\Language\FileSourceBuilder;
+use function Digia\GraphQL\buildSchema;
+use function Digia\GraphQL\graphql;
+
+$sourceBuilder = new FileSourceBuilder(__DIR__ . '/star-wars.graphqls');
+
+$schema = buildSchema($sourceBuilder-&gt;build(), [
+    'Query' =&gt; [
+        'hero' =&gt; function ($rootValue, $arguments) {
+            return getHero($arguments['episode'] ?? null);
+        },
+    ],
+]);
+
+$result = graphql($schema, '
+query HeroNameQuery {
+  hero {
+    name
+  }
+}');</code></pre></div></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="8fa346f766a7b23701c12472e9149858" style="height: auto; min-width: 30px; min-height: 30px; width: 401px; left: 440px; top: 389px;"><div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; font-size: 261%; color: rgb(238, 238, 238);" data-fragment-index="0">
+<p>OMG SO UGLY</p>
+</div></div></section><section data-id="e7795d1b8be2347abd69428c8cabd692"><div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 280px; height: auto;" data-block-id="0f17e5b515ba44dfbe2967c97bbdd1ee"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Let's Build a Real Codebase</h2>
+</div></div>
+</section></section><section data-id="6ffc8dc130c9c3a04fd093bd201c79b2"><div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 21px; height: auto;" data-block-id="d68982b5af8f62dcfa450270c826eac5"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+<h1>Questions!?</h1>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 806px; left: 77px; top: 119px; height: auto;" data-block-id="0d2d27677c2b657effabdbb6a681e84a"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Subtitle" style="z-index: 12;">
+<h2>I'll totally answer anything I can</h2>
+</div></div>
+
+<div class="sl-block" data-block-type="text" data-block-id="04ba52d2fd8a8ecf33edc61bd70bc514" style="height: auto; min-width: 30px; min-height: 30px; width: 648px; left: 156px; top: 294px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+<p><a href="https://joind.in/talk/d9ce6" target="_blank">https://joind.in/talk/d9ce6</a></p>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="9a0ff31807b09544d548cb5a019c62be" style="min-width: 4px; min-height: 4px; width: 300px; height: 300px; left: 326px; top: 350px;"><div class="sl-block-content" style="z-index: 14;"><img data-natural-width="300" data-natural-height="300" style="" data-lazy-loaded="" data-src="take-what-you-need-graphql/dc37cae4e435747ff1164a8b41cb766c.png"></div></div></section>
+			</div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":1327337,"slug":"take-what-you-need-graphql","title":"Take Only What You Need GraphQL in PHP","description":"When to cache and when not to using php","width":960,"height":700,"visibility":"all","published_at":"2018-09-15T10:03:18.811Z","sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/017571b6de9a50ffe2c5171ecc5f68d7/thumb.jpg?1537028020","view_count":0,"user":{"id":480246,"username":"ashleyhutson","name":"Ashley Hutson","description":null,"thumbnail_url":"//graph.facebook.com/10208020913134591/picture","paid":true,"pro":false,"lite":true,"team_id":null,"settings":{"id":321979,"present_controls":true,"present_upsizing":true,"present_pointer":false,"present_notes":true,"default_deck_tag_id":null}},"background_transition":"fade","transition":"slide","theme_id":null,"theme_font":"merriweather","theme_color":"sky-blue","auto_slide_interval":0,"comments_enabled":true,"forking_enabled":false,"rolling_links":false,"center":false,"shuffle":false,"should_loop":false,"share_notes":false,"slide_number":false,"slide_count":35,"rtl":false,"version":2,"collaborative":false,"deck_user_editor_limit":1,"data_updated_at":1537028020130,"font_typekit":null,"font_google":null,"notes":{}}};
+
+
+			// Use local fonts
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/head.min.js"></script>
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+
+		<!-- Initialize the presentation -->
+		<script>
+			Reveal.initialize({
+				width: 960,
+				height: 700,
+				margin: 0.05,
+
+				controls: true,
+				progress: true,
+				history: true,
+				mouseWheel: false,
+				showNotes: false,
+				slideNumber: false,
+
+				autoSlide: 0 || 0,
+				autoSlideStoppable: true,
+
+				center: false,
+				shuffle: false,
+				loop: false,
+				rtl: false,
+
+				transition: "slide",
+				backgroundTransition: "fade",
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js', async: true, callback: function() { hljs.initHighlighting(); hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'lib/reveal-plugins/zoom/zoom.js', async: true }
+				]
+			});
+		</script>
+
+		
+
+	</body>
+</html>

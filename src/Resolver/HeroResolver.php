@@ -44,7 +44,7 @@ class HeroResolver {
         if(isset($this->args) && isset($this->args['episode'])) {
             return $this->queryEpisode($this->args['episode']);
         }
-        return null;
+        return self::luke();
     }
 
     private function queryEpisode($episode) {

@@ -40,7 +40,7 @@ class GraphQLController
             if (null !== $requestData) {
                 $query     = $requestData['query']     ?? null;
                 $variables = $requestData['variables'] ?? [];
-                $operationName = $requestData['operationName'];
+                $operationName = $requestData['operationName'] ?? null;
             } else {
                 // They sent us JSON, and we know it's unparseable. As such, bail out with some education.
                 try {
@@ -53,6 +53,7 @@ class GraphQLController
         } elseif ('application/graphql' === $request->getMediaType()) {
             // Let the GraphQL engine perform the validation.
             $query = $payload;
+
         } else {
             // Unsupported Media Type
             throw new Exception(\sprintf(
@@ -66,7 +67,7 @@ class GraphQLController
         return [
             $query ?? null,
             $variables ?? [],
-            $operationName ?? 'Query'
+            $operationName ?? null
         ];
     }
 }
