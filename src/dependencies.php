@@ -48,8 +48,9 @@ $container['db.droid'] = static function (Container $c) {
     return $droidFactory->factory($c['db']);
 };
 
-$container['GraphQlQueries'] = static function (Containe $c) {
+$container['GraphQlQueries'] = static function (Container $c) {
     return [
+        'Query' => \Digia\GraphQL\Test\Unit\Schema\Resolver\QueryResolver::class,
         'hero' => function ($value, $arguments) use ($c) {
             $heroResolver = new Take\Resolver\HeroResolver($value, $arguments, $c['db.hero']);
             return $heroResolver->query();
@@ -99,7 +100,7 @@ $container['GraphQlSchema'] = static function (Container $c) {
         'Droid' => $c['GraphQlDroid'],
     ]);
 
-    return new Take\GraphQl\GraphQLService($schemaDef);
+    return $executableSchema;
 };
 
 $container['GraphQlService'] = static function (Container $c) {

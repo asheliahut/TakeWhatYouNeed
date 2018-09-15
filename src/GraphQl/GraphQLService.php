@@ -2,6 +2,9 @@
 
 namespace Take\GraphQl;
 
+use function Digia\GraphQL\graphql;
+use Digia\GraphQL\Schema\Schema;
+
 class GraphQLService
 {
     private $schema;
