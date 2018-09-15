@@ -2,6 +2,7 @@
 
 namespace Take\Controller;
 
+use Slim\Http\Response;
 use Take\GraphQl\GraphQLService;
 
 class GraphQLController
@@ -13,7 +14,7 @@ class GraphQLController
         $this->graphqlService = $graphqlService;
     }
 
-    public function handle(Request $request): JsonResponse
+    public function handle(Request $request, Response $response): Response
     {
         $query         = $request->get('query');
         $variables     = $request->get('variables') ?? [];
@@ -21,6 +22,6 @@ class GraphQLController
 
         $result = $this->graphqlService->executeQuery($query, $variables, $operationName);
 
-        return response()->json($result);
+        return $response->withJson($result);
     }
 }
